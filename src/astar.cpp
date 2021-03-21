@@ -71,10 +71,10 @@ void Astar::step() {
   }
 
   clList.push_back(trg);
-  printf("close node %d %lf\n", trg->id, trg->f);
+  // printf("close node %d %lf\n", trg->id, trg->f);
   opList.sort([](const NODE_PTR &lhs, const NODE_PTR &rhs) { return lhs->f < rhs->f; });
 
-#if 1
+#if 0
   printf("## open list\n");
   for (auto it = opList.begin(), ie = opList.end(); it != ie; it++) {
     printf("  id %d %f\n", (*it)->id, (*it)->f);

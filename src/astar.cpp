@@ -46,27 +46,41 @@ void Astar::step() {
     NODE_PTR chld = trg->child[i].first;
     double cost = trg->child[i].second;
 
-    chld->g = trg->g + cost;
-    chld->h = chld->estimate_cost(goal);
-    chld->f = chld->g + chld->h;
+    double g = trg->g + cost;
+    double h = chld->estimate_cost(goal);
+    double f = g + h;
+
 
     auto opit = find(opList.begin(), opList.end(), chld);
     auto clit = find(clList.begin(), clList.end(), chld);
 
-    if (clit != clList.end() && (*clit)->f > chld->f) {
+    if (clit != clList.end() && (*clit)->f > f) {
       chld->parent = trg;
       clList.erase(clit);
       opList.push_back(chld);
     }
 
-    if (opit == opList.end()) {
+    if (opit == opList.end() && clit == clList.end() ) {
       opList.push_back(chld);
       chld->parent = trg;
     }
 
+    chld->g = g;
+    chld->h = h;
+    chld->f = g + h;
   }
 
-  opList.sort();
+  clList.push_back(trg);
+  printf("close node %d %lf\n", trg->id, trg->f);
+  opList.sort([](const NODE_PTR &lhs, const NODE_PTR &rhs) { return lhs->f < rhs->f; });
+
+#if 1
+  printf("## open list\n");
+  for (auto it = opList.begin(), ie = opList.end(); it != ie; it++) {
+    printf("  id %d %f\n", (*it)->id, (*it)->f);
+  }
+#endif
+
 }
 
 
@@ -81,9 +95,10 @@ int Astar::makeRoute(std::list<NODE_PTR> &route) {
 
   if (findGoal()) {
     NODE_PTR p = goal;
+    route.push_front(p);
     while (p != start) {
-      route.push_front(p);
       p = p->parent;
+      route.push_front(p);
     }
   }
 

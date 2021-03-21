@@ -1,6 +1,7 @@
 #pragma once
 
 struct Node {
+  int id;
   double x, y;
   double g, h, f;
   std::vector<std::pair<std::shared_ptr<Node>, double>> child;
@@ -11,6 +12,11 @@ struct Node {
     double dy = y - trg->y;
 
     return sqrt(dx * dx + dy * dy);
+  }
+
+  Node() {
+    x = y = 0.0;
+    g = h = f = 0.0;
   }
 
   bool operator<(const Node& rhs) {

@@ -35,6 +35,7 @@ add_library(imgui STATIC
 
 ## Define the executable
 set(SRCS 
+  src/astar.cpp
   src/main.cpp
 )
 add_executable(${PROJECT_NAME} ${SRCS})

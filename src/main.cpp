@@ -11,6 +11,9 @@ int main(int argc, char const *argv[]) {
 	bool show_another_window = false;
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
+#if 1
+
+#else
 	// Main loop
 	while (!glfwWindowShouldClose(window))
 	{
@@ -75,6 +78,7 @@ int main(int argc, char const *argv[]) {
 		glfwSwapBuffers(window);
 	}
 
+#endif
 	termImgui();
 	return 0;
 }
